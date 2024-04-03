@@ -17,15 +17,18 @@ class CandidatoController extends Controller
 
     function list()
     {
-        $data = $this->candidato->all();
-        // $data = Candidato::all()->toArray();
-        return $data;
+        $candidatos = $this->candidato
+            ->with("experiencias")
+            ->with("competencias")
+            ->with("vagas")
+            ->get();
+        if ($candidatos->toArray() == null) return ["msg" => "Não encontrado"];
+        return $candidatos;
     }
 
     function create(Request $request)
     {
         $requestData = $request->all();
-        $requestData["password"] = Hash::make($requestData["password"]);
         $candidato = $this->candidato->create($requestData);
         return $candidato;
     }

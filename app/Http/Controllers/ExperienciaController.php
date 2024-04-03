@@ -20,7 +20,7 @@ class ExperienciaController extends Controller
 
     public function list()
     {
-        $experiencia = $this->experiencias->with("candidatos")->all();
+        $experiencia = $this->experiencias->with("candidato")->get();
 
         if ($experiencia->toArray() == null) return ["msg" => "Nenhuma experiencia encontrada"];
 
@@ -40,5 +40,46 @@ class ExperienciaController extends Controller
         $experiencia->save();
 
         return $experiencia;
+    }
+
+    public function show($id)
+    {
+        $experiencia = $this->experiencias->with("candidato")->find($id);
+
+        if ($experiencia) return $experiencia;
+
+        return ["msg" => "Não encontrado"];
+    }
+
+    public function update(Request $request, $id)
+    {
+
+        $requestData = $request->all();
+        $experiencia = $this->experiencias->find($id);
+
+        if ($experiencia) {
+            foreach ($requestData as $key => $value) {
+                if ($key == "candidato_id") continue;
+                $experiencia[$key] = $requestData[$key];
+            }
+
+            $experiencia->save();
+            return $experiencia;
+        }
+
+        return ["msg" => "Não encontrado"];
+    }
+
+
+    public function delete($id)
+    {
+        $experiencia = $this->experiencias->find($id);
+
+        if ($experiencia) {
+            $resultado = $experiencia->delete();
+            if ($resultado) return ["msg" => "Deletado com sucesso"];
+        }
+
+        return ["msg" => "Não encontrado"];
     }
 }

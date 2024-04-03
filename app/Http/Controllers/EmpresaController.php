@@ -28,7 +28,6 @@ class EmpresaController extends Controller
     function create(Request $request)
     {
         $requestData = $request->all();
-        $requestData["password"] = Hash::make($requestData["password"]);
 
         $result = $this->empresas->create($requestData);
         return $result;

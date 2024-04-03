@@ -15,4 +15,9 @@ class Vagas extends Model
     {
         return $this->belongsTo(Empresa::class);
     }
+
+    public function candidatos()
+    {
+        return $this->belongsToMany(Candidato::class, "candidato_vaga", "vaga_id", "candidato_id");
+    }
 }

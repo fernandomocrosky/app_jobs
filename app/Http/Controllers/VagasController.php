@@ -20,7 +20,11 @@ class VagasController extends Controller
 
     function list()
     {
-        $vagas = $this->vagas->with("empresa")->get()->toArray();
+        $vagas = $this->vagas
+            ->with("empresa")
+            ->with("candidatos")
+            ->get()
+            ->toArray();
         if ($vagas != null) {
             return $vagas;
         }

@@ -8,7 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Empresa extends Model
 {
     protected $fillable = ["email", "password", "nome", "ramo"];
-    protected $hidden = ["password"];
+    protected $hidden = ["password", "created_at", "updated_at"];
+
+    protected $casts = [
+        "password" => "hashed"
+    ];
+
     use HasFactory;
 
 
